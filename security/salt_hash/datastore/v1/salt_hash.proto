@@ -1,0 +1,25 @@
+syntax = "proto3";
+option go_package = "proto/security/salt_hash/datastore/v1";
+package datastore_v1;
+
+import "google/protobuf/wrappers.proto";
+import "third_party/google/api/annotations.proto";
+
+service SaltHash { // 5
+    rpc addCredentials(Credentials) returns (google.protobuf.StringValue) {
+        option (google.api.http) = { // 1
+            post: "/v1/credentials",   // 2
+            body: "*"                  // 3
+        };
+    }
+    rpc deleteCredentials(google.protobuf.StringValue) returns (google.protobuf.BoolValue) {
+        option (google.api.http) = {
+            delete: "/v1/credentials/{value}" // 4
+        };
+    }
+}
+
+message Credentials {
+    string username = 1;
+    string password = 2;
+}
